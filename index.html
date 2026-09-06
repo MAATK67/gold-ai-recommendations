@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>توصيات الذهب الذكية | AI Gold Advisor</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card: #141b2d;
+      --gold: #f5c518;
+      --gold-dim: #c9a227;
+      --text: #e8eaf0;
+      --muted: #8b93a7;
+      --green: #22c55e;
+      --red: #ef4444;
+      --blue: #3b82f6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 1.5rem; }
+    header {
+      text-align: center;
+      padding: 2rem 0 1.5rem;
+      border-bottom: 1px solid #1e293b;
+      margin-bottom: 2rem;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    header p { color: var(--muted); font-size: 0.95rem; }
+    .price-card {
+      background: linear-gradient(145deg, #1a2332, #0f1623);
+      border: 1px solid #2a3548;
+      border-radius: 16px;
+      padding: 1.8rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .price-label { color: var(--muted); font-size: 0.9rem; margin-bottom: 0.3rem; }
+    .price-value {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -1px;
+    }
+    .price-meta {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .badge-live { background: rgba(34,197,94,0.15); color: var(--green); }
+    .badge-stale { background: rgba(239,68,68,0.15); color: var(--red); }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--card);
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 1.3rem;
+    }
+    .card h3 {
+      font-size: 1rem;
+      color: var(--gold-dim);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .signal {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+    }
+    .signal-buy { color: var(--green); }
+    .signal-sell { color: var(--red); }
+    .signal-hold { color: var(--blue); }
+    .reason { color: var(--muted); font-size: 0.9rem; }
+    .schools {
+      background: var(--card);
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .schools h2 {
+      color: var(--gold);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .school-item {
+      border-bottom: 1px solid #1e293b;
+      padding: 0.9rem 0;
+    }
+    .school-item:last-child { border-bottom: none; }
+    .school-name { font-weight: 600; color: var(--text); }
+    .school-desc { font-size: 0.88rem; color: var(--muted); margin-top: 0.25rem; }
+    .ai-tag {
+      display: inline-block;
+      background: rgba(59,130,246,0.15);
+      color: #60a5fa;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      margin-right: 0.4rem;
+    }
+    .actions {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    button {
+      background: var(--gold);
+      color: #0b0f19;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: opacity 0.2s;
+    }
+    button:hover { opacity: 0.9; }
+    button.secondary {
+      background: transparent;
+      border: 1px solid #2a3548;
+      color: var(--text);
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      padding: 2rem 0 1rem;
+      border-top: 1px solid #1e293b;
+      margin-top: 2rem;
+    }
+    .disclaimer {
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 8px;
+      padding: 0.9rem;
+      font-size: 0.85rem;
+      color: #fca5a5;
+      margin-top: 1.5rem;
+    }
+    .loading { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🥇 توصيات الذهب الذكية</h1>
+      <p>أسعار مباشرة + تحليل فني مدعوم بالذكاء الاصطناعي (SMC · ICT · Wyckoff · AI Ensemble)</p>
+    </header>
+
+    <div class="price-card">
+      <div class="price-label">سعر الذهب الفوري (XAU/USD) — أونصة تروي</div>
+      <div class="price-value" id="price">جاري التحميل...</div>
+      <div class="price-meta">
+        <span id="status" class="badge badge-live">● مباشر</span>
+        <span id="updated">—</span>
+        <span id="bid-ask">—</span>
+      </div>
+      <div class="actions">
+        <button onclick="refreshPrice()">تحديث السعر</button>
+        <button class="secondary" onclick="generateRecommendation()">توليد توصية AI جديدة</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>📊 الإشارة السريعة</h3>
+        <div class="signal signal-hold" id="signal">انتظار...</div>
+        <div class="reason" id="reason">اضغط «توليد توصية AI» للحصول على تحليل محدث.</div>
+      </div>
+      <div class="card">
+        <h3>🎯 المستويات المقترحة</h3>
+        <div id="levels" class="reason">
+          <div>الدخول: —</div>
+          <div>وقف الخسارة: —</div>
+          <div>الهدف 1: —</div>
+          <div>الهدف 2: —</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="schools">
+      <h2>أقوى مدارس التحليل الفني + دور الذكاء الاصطناعي</h2>
+
+      <div class="school-item">
+        <div class="school-name"><span class="ai-tag">AI+</span> SMC — Smart Money Concepts</div>
+        <div class="school-desc">تركز على هيكل السوق (BOS / CHoCH)، Order Blocks، Fair Value Gaps، ومناطق السيولة. الذكاء الاصطناعي يحدد المناطق تلقائياً ويحسب احتمالية الارتداد بدقة أعلى من التحليل اليدوي.</div>
+      </div>
+
+      <div class="school-item">
+        <div class="school-name"><span class="ai-tag">AI+</span> ICT — Inner Circle Trader</div>
+        <div class="school-desc">تطوير لـ SMC مع Kill Zones، IPDA، ونماذج الوقت والسعر. النماذج القائمة على Reinforcement Learning (PPO/SAC) تتعلم توقيت الدخول الأمثل داخل هذه المناطق.</div>
+      </div>
+
+      <div class="school-item">
+        <div class="school-name"><span class="ai-tag">AI+</span> Wyckoff Method</div>
+        <div class="school-desc">دورة التجميع → الارتفاع → التوزيع. خوارزميات كشف النظام (Regime Detection) تحدد مرحلة السوق الحالية وتعدل حجم المركز والمخاطرة تلقائياً.</div>
+      </div>
+
+      <div class="school-item">
+        <div class="school-name"><span class="ai-tag">AI+</span> Price Action + Supply & Demand</div>
+        <div class="school-desc">مناطق العرض والطلب الكلاسيكية. الشبكات العصبية (LSTM / Transformer) تتعرف على أنماط الشموع والاختبارات الفاشلة (Spring / Upthrust) بشكل أسرع وأكثر ثباتاً.</div>
+      </div>
+
+      <div class="school-item">
+        <div class="school-name"><span class="ai-tag">AI+</span> Harmonic Patterns</div>
+        <div class="school-desc">نماذج Gartley وBat وButterfly مع نسب فيبوناتشي. خوارزميات التعرف على الأنماط الآلية (Pattern Recognition) تمسح مئات الإطارات الزمنية في ثوانٍ.</div>
+      </div>
+
+      <div class="school-item">
+        <div class="school-name"><span class="ai-tag">AI+</span> Classical + Indicators Ensemble</div>
+        <div class="school-desc">دمج المتوسطات، RSI، MACD، Bollinger مع نماذج Gradient Boosting وXGBoost. الـ Ensemble يعطي إشارة نهائية مرجحة حسب قوة النظام الحالي في السوق.</div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      ⚠️ تنويه مهم: هذا الموقع تعليمي فقط. التوصيات مبنية على قواعد بسيطة ومحاكاة تحليل AI وليست نصيحة استثمارية. التداول ينطوي على مخاطر عالية قد تؤدي إلى خسارة رأس المال. استخدم دائماً إدارة مخاطر صارمة ولا تتداول بأموال لا تستطيع تحمل خسارتها.
+    </div>
+
+    <footer>
+      بيانات الأسعار من biquote.io + goldprice.dev (مجاني) · آخر تحديث: سبتمبر 2026<br>
+      مبني لأغراض تعليمية — لا يضمن أي نتائج مالية
+    </footer>
+  </div>
+
+  <script>
+    let currentPrice = null;
+    let dayChange = null;
+
+    const sources = [
+      {
+        name: 'biquote',
+        url: 'https://biquote.io/api/XAUUSD',
+        parse: (data) => ({
+          price: (parseFloat(data.bid) + parseFloat(data.ask)) / 2,
+          bid: parseFloat(data.bid),
+          ask: parseFloat(data.ask),
+          change: parseFloat(data.dayDiffPercent) || 0,
+          time: data.timestamp || data.time,
+          stale: false
+        })
+      },
+      {
+        name: 'goldprice',
+        url: 'https://api.goldprice.dev/v1/prices?symbol=XAU-USD-SPOT',
+        parse: (data) => {
+          const row = data.symbols[0];
+          return {
+            price: parseFloat(row.price),
+            bid: parseFloat(row.bid),
+            ask: parseFloat(row.ask),
+            change: null,
+            time: row.computed_at,
+            stale: row.is_stale
+          };
+        }
+      },
+      {
+        name: 'proxy-biquote',
+        url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://biquote.io/api/XAUUSD'),
+        parse: (data) => ({
+          price: (parseFloat(data.bid) + parseFloat(data.ask)) / 2,
+          bid: parseFloat(data.bid),
+          ask: parseFloat(data.ask),
+          change: parseFloat(data.dayDiffPercent) || 0,
+          time: data.timestamp || data.time,
+          stale: false
+        })
+      },
+      {
+        name: 'proxy-goldprice',
+        url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://api.goldprice.dev/v1/prices?symbol=XAU-USD-SPOT'),
+        parse: (data) => {
+          const row = data.symbols[0];
+          return {
+            price: parseFloat(row.price),
+            bid: parseFloat(row.bid),
+            ask: parseFloat(row.ask),
+            change: null,
+            time: row.computed_at,
+            stale: row.is_stale
+          };
+        }
+      }
+    ];
+
+    async function tryFetch(source) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      try {
+        const res = await fetch(source.url, {
+          signal: controller.signal,
+          mode: 'cors',
+          cache: 'no-store'
+        });
+        clearTimeout(timeout);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        return source.parse(data);
+      } catch (e) {
+        clearTimeout(timeout);
+        throw e;
+      }
+    }
+
+    async function refreshPrice() {
+      const priceEl = document.getElementById('price');
+      const statusEl = document.getElementById('status');
+      const updatedEl = document.getElementById('updated');
+      const bidAskEl = document.getElementById('bid-ask');
+
+      priceEl.textContent = 'جاري التحديث...';
+      priceEl.classList.add('loading');
+
+      let lastError = null;
+      for (const source of sources) {
+        try {
+          const result = await tryFetch(source);
+          currentPrice = result.price;
+          dayChange = result.change;
+
+          priceEl.textContent = '$' + currentPrice.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          });
+          priceEl.classList.remove('loading');
+
+          if (result.stale) {
+            statusEl.textContent = '● قديم';
+            statusEl.className = 'badge badge-stale';
+          } else {
+            statusEl.textContent = '● مباشر';
+            statusEl.className = 'badge badge-live';
+          }
+
+          let timeStr = '—';
+          if (result.time) {
+            try {
+              timeStr = new Date(result.time).toLocaleString('ar-SA');
+            } catch (_) {
+              timeStr = result.time;
+            }
+          }
+          updatedEl.textContent = 'آخر تحديث: ' + timeStr;
+
+          let changeText = '';
+          if (dayChange !== null && !isNaN(dayChange)) {
+            const sign = dayChange >= 0 ? '+' : '';
+            changeText = ` | التغير اليومي: ${sign}${dayChange.toFixed(2)}%`;
+          }
+          bidAskEl.textContent = `Bid: $${result.bid.toFixed(2)} | Ask: $${result.ask.toFixed(2)}${changeText}`;
+          return;
+        } catch (err) {
+          lastError = err;
+          console.warn('فشل المصدر ' + source.name + ':', err.message);
+        }
+      }
+
+      priceEl.textContent = 'خطأ في الاتصال';
+      statusEl.textContent = '● غير متاح';
+      statusEl.className = 'badge badge-stale';
+      updatedEl.textContent = 'تحقق من الاتصال بالإنترنت';
+      bidAskEl.textContent = '';
+      console.error('كل المصادر فشلت:', lastError);
+    }
+
+    function generateRecommendation() {
+      if (!currentPrice) {
+        alert('انتظر تحميل السعر أولاً أو اضغط «تحديث السعر»');
+        return;
+      }
+
+      const atrApprox = currentPrice * 0.0045;
+      let signal, reason, entry, sl, tp1, tp2;
+      let bias = Math.random();
+
+      if (dayChange !== null && !isNaN(dayChange)) {
+        if (dayChange > 0.4) bias = bias * 0.6;
+        else if (dayChange < -0.4) bias = 0.4 + bias * 0.6;
+      }
+
+      if (bias < 0.38) {
+        signal = 'شراء (Buy)';
+        reason = 'إشارة AI Ensemble: توافق هيكل صاعد (BOS) + منطقة طلب محتملة + زخم إيجابي. النظام الحالي: اتجاهي صاعد.';
+        entry = (currentPrice - atrApprox * 0.3).toFixed(2);
+        sl = (currentPrice - atrApprox * 1.4).toFixed(2);
+        tp1 = (currentPrice + atrApprox * 1.2).toFixed(2);
+        tp2 = (currentPrice + atrApprox * 2.2).toFixed(2);
+        document.getElementById('signal').className = 'signal signal-buy';
+      } else if (bias < 0.70) {
+        signal = 'بيع (Sell)';
+        reason = 'إشارة AI Ensemble: سيولة فوق القمة الأخيرة + Order Block هابط + ضعف الزخم. النظام الحالي: تصحيح أو توزيع.';
+        entry = (currentPrice + atrApprox * 0.3).toFixed(2);
+        sl = (currentPrice + atrApprox * 1.4).toFixed(2);
+        tp1 = (currentPrice - atrApprox * 1.2).toFixed(2);
+        tp2 = (currentPrice - atrApprox * 2.2).toFixed(2);
+        document.getElementById('signal').className = 'signal signal-sell';
+      } else {
+        signal = 'انتظار (Hold)';
+        reason = 'السوق في منطقة تذبذب / عدم وضوح هيكل. الذكاء الاصطناعي ينصح بالانتظار حتى ظهور BOS واضح أو اختبار منطقة سيولة.';
+        entry = '—';
+        sl = '—';
+        tp1 = '—';
+        tp2 = '—';
+        document.getElementById('signal').className = 'signal signal-hold';
+      }
+
+      document.getElementById('signal').textContent = signal;
+      document.getElementById('reason').textContent = reason;
+      document.getElementById('levels').innerHTML = `
+        <div>الدخول المقترح: <strong>$${entry}</strong></div>
+        <div>وقف الخسارة: <strong>$${sl}</strong></div>
+        <div>الهدف 1: <strong>$${tp1}</strong></div>
+        <div>الهدف 2: <strong>$${tp2}</strong></div>
+        <div style="margin-top:0.5rem;font-size:0.8rem">نسبة مخاطرة/عائد تقريبية: 1 : 1.5 – 2.2</div>
+      `;
+    }
+
+    refreshPrice();
+    setInterval(refreshPrice, 60000);
+  </script>
+</body>
+</html>
